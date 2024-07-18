@@ -37,7 +37,6 @@ double evaluate(const char* arg);
 
 void append_token(Token token);
 Token get_token(size_t i);
-int count_decimal_places(double result);
 void print_error(const char* arg, size_t index, const char* msg);
 void print_manual(void);
 
@@ -80,7 +79,7 @@ int main(int argc, char** argv) {
   if (result == 0) {
     printf("0\n");
   } else {
-    printf("%.*lf\n", count_decimal_places(result), result);
+    printf("%.15g\n", result);
   }
 
   free(tokens.ptr);
@@ -372,29 +371,6 @@ void append_token(Token token) {
 
 Token get_token(size_t i) {
   return tokens.ptr[i];
-}
-
-int count_decimal_places(double result) {
-  char buf[DBL_DECIMAL_DIG + 1];
-  snprintf(buf, sizeof (buf), "%.*g", DBL_DECIMAL_DIG, result);
-
-  char* decimal_point = strchr(buf, '.');
-  if (decimal_point == NULL) {
-    return 0;
-  }
-
-  int len = strlen(buf);
-  int count = 0;
-  bool counting = false;
-
-  for (int i = len - 1; i > (decimal_point - buf); i--) {
-    if (counting || buf[i] != '0') {
-      counting = true;
-      count++;
-    }
-  }
-
-  return count;
 }
 
 void print_error(const char* arg, size_t index, const char* msg) {
