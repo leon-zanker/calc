@@ -46,9 +46,11 @@ int main(int argc, char** argv) {
   if (argc > 2) {
     fprintf(
       stderr,
-      "Expected no argument for the manual or a single argument for a calculation, got %d\n",
+      "Expected no argument for the manual or a single argument for a calculation, got %d\n"
+      "Tip: Wrap your calculation in double quotes\n",
       argc
     );
+    return 1;
   }
 
   if (argc == 1) {
